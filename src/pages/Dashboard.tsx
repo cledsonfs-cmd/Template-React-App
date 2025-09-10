@@ -1,7 +1,5 @@
-import { Typography } from "@mui/material";
+import React from "react";
 
-const Dashboard = () => {
-  return <Typography variant="h4">Área Restrita - Dashboard</Typography>;
-};
-
-export default Dashboard;
+export default function Dashboard() {
+  return <h2>Dashboard (Área protegida)</h2>;
+}

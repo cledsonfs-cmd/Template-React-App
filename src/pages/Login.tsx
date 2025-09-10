@@ -1,55 +1,28 @@
-import { useState } from "react";
-import { Button, Container, TextField, Typography } from "@mui/material";
-import { login } from "../api/authService";
-import { useAuth } from "../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loginRequest } from "@/store/modules/auth/actions";
+import { RootState } from "@/store";
 
-const Login = () => {
+export default function Login() {
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector((state: RootState) => state.auth);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { login: loginContext } = useAuth();
-  const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const data = await login(username, password);
-      if (data.token) {
-        loginContext(data.token);
-        navigate("/dashboard");
-      }
-    } catch (error) {
-      alert("Usuário ou senha inválidos");
-    }
+    dispatch(loginRequest(username, password));
   };
 
   return (
-    <Container maxWidth="xs">
-      <Typography variant="h5" gutterBottom>
-        Login
-      </Typography>
+    <div>
+      <h2>Login</h2>
       <form onSubmit={handleSubmit}>
-        <TextField
-          label="Usuário"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          fullWidth
-          margin="normal"
-        />
-        <TextField
-          label="Senha"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          fullWidth
-          margin="normal"
-        />
-        <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>
-          Entrar
-        </Button>
+        <input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Usuário" />
+        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Senha" />
+        <button type="submit" disabled={loading}>Entrar</button>
       </form>
-    </Container>
+      {error && <p style={{ color: "red" }}>{error}</p>}
+    </div>
   );
-};
-
-export default Login;
+}

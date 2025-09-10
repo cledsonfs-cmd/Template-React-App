@@ -1,19 +1,16 @@
-import { ReactNode } from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import Container from "@mui/material/Container";
-import { Box } from "@mui/material";
+import React from "react";
+import { Outlet } from "react-router-dom";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
-const MainLayout = ({ children }: { children: ReactNode }) => {
+export default function MainLayout() {
   return (
-    <>
-     <Box display="flex" flexDirection="column" minHeight="100vh">
+    <div>
       <Header />
-      <Container sx={{ mt: 4, mb: 4 }}>{children}</Container>
+      <main>
+        <Outlet />
+      </main>
       <Footer />
-    </Box>
-    </>
+    </div>
   );
-};
-
-export default MainLayout;
+}

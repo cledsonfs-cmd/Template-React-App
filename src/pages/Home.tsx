@@ -1,7 +1,5 @@
-import { Typography } from "@mui/material";
+import React from "react";
 
-const Home = () => {
-  return <Typography variant="h4">Página Inicial</Typography>;
-};
-
-export default Home;
+export default function Home() {
+  return <h2>Home Page</h2>;
+}
